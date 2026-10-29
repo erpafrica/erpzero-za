@@ -86,7 +86,7 @@ required_apps = ["erpnext"]
 # ------------
 
 # before_install = "erpzero_za.install.before_install"
-# after_install = "erpzero_za.install.after_install"
+after_install = "erpzero_za.lean.after_install"
 
 # Uninstallation
 # ------------
