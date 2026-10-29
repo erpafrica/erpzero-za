@@ -4,6 +4,7 @@ from frappe.tests import IntegrationTestCase
 from frappe.utils import get_first_day, get_last_day, today
 
 from erpzero_za.za_books import vat
+from erpzero_za.za_books.vat_return import ValueaddedTaxReturn
 
 
 class TestVAT(IntegrationTestCase):
@@ -50,6 +51,13 @@ class TestVAT(IntegrationTestCase):
 				"date_to": get_last_day(today()),
 			}
 		).insert()
+
+		# csf_za on its own still misses no-VAT sales and pads three classifications with a space.
+		# When this fails, upstream has fixed them and erpzero_za/za_books/vat_return.py can go.
+		upstream = ValueaddedTaxReturn.get_gl_entries(ret)
+		self.assertNotIn(self.template("Zero-rated 0%"), {e.taxes_and_charges_template for e in upstream})
+		self.assertTrue(any((e.classification or "").endswith(" ") for e in upstream))
+
 		for entry in ret.get_gl_entries():
 			ret.append(
 				"gl_entries",
