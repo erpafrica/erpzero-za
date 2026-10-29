@@ -8,7 +8,7 @@ app_license = "mit"
 # Apps
 # ------------------
 
-required_apps = ["erpnext"]
+required_apps = ["erpnext", "csf_za"]
 
 # Each item in the list will be shown as an app in the apps page
 # add_to_apps_screen = [
@@ -144,13 +144,13 @@ after_install = "erpzero_za.lean.after_install"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+doc_events = {
+	"Company": {"on_update": "erpzero_za.za_books.vat.on_company_update"},
+}
+
+override_doctype_class = {
+	"Value-added Tax Return": "erpzero_za.za_books.vat_return.ValueaddedTaxReturnZA",
+}
 
 # Scheduled Tasks
 # ---------------
@@ -176,7 +176,7 @@ after_install = "erpzero_za.lean.after_install"
 # Testing
 # -------
 
-# before_tests = "erpzero_za.install.before_tests"
+before_tests = "erpzero_za.tests.setup.before_tests"
 
 # Extend DocType Class
 # ------------------------------

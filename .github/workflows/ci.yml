@@ -89,6 +89,7 @@ jobs:
         working-directory: /home/runner/frappe-bench
         run: |
           bench get-app erpnext --branch version-16
+          bench get-app csf_za https://github.com/Starktail/csf_za --branch version-16
           bench get-app erpzero_za $GITHUB_WORKSPACE
           bench setup requirements --dev
           bench new-site --db-root-password root --admin-password admin test_site
