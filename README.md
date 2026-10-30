@@ -11,8 +11,6 @@ switched on per site), and an optional **showcase mode** for public demos.
 Documentation: <https://doc.erpafrica.org/erpzeroza-docs.html>, and in `docs/`:
 [VAT and the VAT201](docs/vat.md) · [Barb the Bookkeeper](docs/barb.md) · [Demo guests](docs/showcase.md).
 
-The plan this app is built from lives in the erpAfrica venture repo: `ErpZero/PLAN.md`.
-
 ### Modules
 
 | Module | Holds |
