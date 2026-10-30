@@ -4,7 +4,12 @@ Run South African small-business books on ERPNext, and migrate off Xero.
 
 A Frappe app for ERPNext v16. It sets ERPNext up as a simple SA bookkeeping system (VAT201,
 SA tax invoices, a Books workspace, bank statement import and rules) and moves a company's
-Xero history across, with a reconciliation that proves the numbers match to the cent.
+Xero history across, with a reconciliation that proves the numbers match to the cent. It carries
+the panel and tools for **Barb the Bookkeeper**, an AI bookkeeper (a service from 2nth.ai,
+switched on per site), and an optional **showcase mode** for public demos.
+
+Documentation: <https://doc.erpafrica.org/erpzeroza-docs.html>, and in `docs/`:
+[VAT and the VAT201](docs/vat.md) · [Barb the Bookkeeper](docs/barb.md) · [Demo guests](docs/showcase.md).
 
 The plan this app is built from lives in the erpAfrica venture repo: `ErpZero/PLAN.md`.
 
@@ -17,6 +22,11 @@ The plan this app is built from lives in the erpAfrica venture repo: `ErpZero/PL
 | Bank | Statement import presets for SA banks, Bank Rule |
 | Payroll Bridge | SimplePay accounting export → monthly payroll journal |
 | Payments | Pay-now links (Paystack, Yoco) and settlement posting |
+| Barb | Barb Settings, Barb Log, the Ask Barb panel, and the tools Barb asks the site to run (as the signed-in user) |
+| Showcase | Showcase Settings, Showcase Lead: email sign-up for Demo Guests, guard rails, nightly clean-up |
+
+Built so far: the lean profile (`lean.py`), SA VAT (`za_books/`), Barb (`barb/`) and showcase
+mode (`showcase/`). The other modules are placeholders for the work in the plan.
 
 Demo data (the fictitious *Karoo Kettle Co.* and its fake Xero export) will be a separate
 command, never run on install, so client sites stay clean.
@@ -26,8 +36,9 @@ command, never run on install, so client sites stay clean.
 ```bash
 cd $PATH_TO_YOUR_BENCH
 bench get-app erpnext --branch version-16   # if not already on the bench
+bench get-app https://github.com/Starktail/csf_za --branch version-16
 bench get-app https://github.com/erpafrica/erpzero-za --branch develop
-bench --site <site> install-app erpzero_za
+bench --site <site> install-app erpnext csf_za erpzero_za
 ```
 
 On Frappe Cloud: add this repo to the bench group (v16), deploy, then install the app on the site.
@@ -55,7 +66,7 @@ pre-commit install
 
 ### CI
 
-- CI: installs ERPNext and this app on a fresh v16 site and runs the tests on every push to `develop`.
+- CI: installs ERPNext, csf_za and this app on a fresh v16 site and runs the tests on every push to `develop`.
 - Linters: Frappe Semgrep rules and pip-audit on every pull request.
 
 ### License

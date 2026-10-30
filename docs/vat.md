@@ -48,7 +48,8 @@ open-source `csf_za` South African localisation, which ErpZeroZA builds on.
 
 ## Preparing the return
 
-1. Open **Value-added Tax Return**, choose the company and the tax period dates, and save.
+1. Open **Value-added Tax Return**, choose the company and the tax period dates, and save. The return
+   is named after the company and the period's last month (CCYYMM), e.g. `Karoo Kettle Co-202610`.
 2. Click **Get transactions for period**. Every invoice and journal that touched VAT in the period is
    listed with its VAT201 classification. Zero-rated, export and exempt sales are listed too, at
    their net value, even though they post nothing to the VAT account.
@@ -59,12 +60,17 @@ The **🔍** button next to each field opens the transactions behind it.
 
 ## What ErpZeroZA fixes in csf_za's return
 
-Two problems in the current `csf_za` version-16 release, fixed in ErpZeroZA and offered upstream:
+Three problems in the current `csf_za` version-16 release, fixed in ErpZeroZA and offered upstream:
 
 - Zero-rated, export and exempt sales (fields 2, 2A and 3) were missing, because the return was built
   only from VAT account entries and these sales post none.
 - Capital goods and zero-rated classifications (fields 1A, 2 and 2A) carried a trailing space that
   stopped the return from saving.
+- Returns are named `{company}-{tax_period}`, but nothing set the tax period, so every return of a
+  company got the same name. ErpZeroZA sets it from the period's last month.
+
+Barb the Bookkeeper can prepare the draft return for you ([barb.md](barb.md)); a person still checks
+and submits it.
 
 Both are covered by `erpzero_za/tests/test_vat.py`, which posts one transaction per field and checks
 every total on the return.
