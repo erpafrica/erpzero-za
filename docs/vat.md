@@ -69,8 +69,8 @@ Three problems in the current `csf_za` version-16 release, fixed in ErpZeroZA an
 - Returns are named `{company}-{tax_period}`, but nothing set the tax period, so every return of a
   company got the same name. ErpZeroZA sets it from the period's last month.
 
-Barb the Bookkeeper can prepare the draft return for you ([barb.md](barb.md)); a person still checks
-and submits it.
+Barb the Bookkeeper, the separate add-on from 2nth.ai, can prepare the draft return for you; a
+person still checks and submits it.
 
 Both are covered by `erpzero_za/tests/test_vat.py`, which posts one transaction per field and checks
 every total on the return.

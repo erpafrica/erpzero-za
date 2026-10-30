@@ -4,7 +4,7 @@
 	<p style="margin: 24px 0;">
 		<a href="{{ link }}" style="background: #B23A2E; color: #ffffff; padding: 12px 20px; border-radius: 8px; text-decoration: none; font-weight: 600;">Sign in to the demo</a>
 	</p>
-	<p>Once you're in, click <b>Ask Barb</b> at the bottom right and try "Prepare my VAT201 for September and October". Barb the Bookkeeper will look it up in the books and explain each field.</p>
+	{% if barb %}<p>Once you're in, click <b>Ask Barb</b> at the bottom right and try "Prepare my VAT201 for September and October". Barb the Bookkeeper will look it up in the books and explain each field.</p>{% endif %}
 	<p>You can open and change anything, and draft new invoices. Submitting, cancelling and sending email are switched off, and what you change is cleared each night. Your access lasts {{ days }} days; sign up again on the demo page for a new link.</p>
 	<p style="color: #6B6159; font-size: 13px;">{{ company }} is a fictitious company. If you didn't ask for this link, ignore this email.</p>
 </div>

@@ -83,6 +83,8 @@ class TestShowcase(IntegrationTestCase):
 		self.assertIsNone(guests.questions_left())
 
 	def test_question_limit(self):
+		if not frappe.db.exists("DocType", "Barb Log"):
+			self.skipTest("Barb isn't installed on this bench")
 		self.sign_up()
 		self.assertEqual(guests.questions_left(EMAIL), 3)
 		for _ in range(3):

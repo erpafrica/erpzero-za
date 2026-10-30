@@ -4,12 +4,16 @@ Run South African small-business books on ERPNext, and migrate off Xero.
 
 A Frappe app for ERPNext v16. It sets ERPNext up as a simple SA bookkeeping system (VAT201,
 SA tax invoices, a Books workspace, bank statement import and rules) and moves a company's
-Xero history across, with a reconciliation that proves the numbers match to the cent. It carries
-the panel and tools for **Barb the Bookkeeper**, an AI bookkeeper (a service from 2nth.ai,
-switched on per site), and an optional **showcase mode** for public demos.
+Xero history across, with a reconciliation that proves the numbers match to the cent, and has an
+optional **showcase mode** for public demos.
+
+**Barb the Bookkeeper**, an AI bookkeeper that drafts the VAT201 and explains the books, is a
+separate, licensed add-on app from [2nth.ai](https://barb.2nth.app). ErpZeroZA works fully
+without her; when she is installed she uses ErpZeroZA's VAT set-up, and showcase mode gives demo
+guests a daily allowance of questions through her `barb_questions_left` hook.
 
 Documentation: <https://doc.erpafrica.org/erpzeroza-docs.html>, and in `docs/`:
-[VAT and the VAT201](docs/vat.md) · [Barb the Bookkeeper](docs/barb.md) · [Demo guests](docs/showcase.md).
+[VAT and the VAT201](docs/vat.md) · [Demo guests](docs/showcase.md).
 
 ### Modules
 
@@ -20,11 +24,9 @@ Documentation: <https://doc.erpafrica.org/erpzeroza-docs.html>, and in `docs/`:
 | Bank | Statement import presets for SA banks, Bank Rule |
 | Payroll Bridge | SimplePay accounting export → monthly payroll journal |
 | Payments | Pay-now links (Paystack, Yoco) and settlement posting |
-| Barb | Barb Settings, Barb Log, the Ask Barb panel, and the tools Barb asks the site to run (as the signed-in user) |
 | Showcase | Showcase Settings, Showcase Lead: email sign-up for Demo Guests, guard rails, nightly clean-up |
 
-Built so far: the lean profile (`lean.py`), SA VAT (`za_books/`), Barb (`barb/`) and showcase
-mode (`showcase/`). The other modules are placeholders for the work in the plan.
+Built so far: the lean profile (`lean.py`), SA VAT (`za_books/`) and showcase mode (`showcase/`). The other modules are placeholders for the work in the plan.
 
 Demo data (the fictitious *Karoo Kettle Co.* and its fake Xero export) will be a separate
 command, never run on install, so client sites stay clean.

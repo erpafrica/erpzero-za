@@ -10,8 +10,9 @@ app_license = "mit"
 
 required_apps = ["erpnext", "csf_za"]
 
-# Barb the Bookkeeper's panel; it only appears once Barb Settings is switched on
-app_include_js = "/assets/erpzero_za/js/barb.js"
+# Barb the Bookkeeper (the separate, licensed "barb" app from 2nth.ai) asks this for a demo guest's
+# daily allowance of questions; it is ignored when Barb isn't installed
+barb_questions_left = "erpzero_za.showcase.guests.questions_left"
 
 # Each item in the list will be shown as an app in the apps page
 # add_to_apps_screen = [

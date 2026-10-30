@@ -142,7 +142,14 @@ def _mail(email, full_name, s, link, minutes):
 		subject="Your sign-in link for the Karoo Kettle demo",
 		message=frappe.render_template(
 			"templates/emails/demo_sign_in.html",
-			{"first_name": full_name.split(" ")[0], "link": link, "minutes": minutes, "days": s.guest_days or 7, "company": s.company},
+			{
+				"first_name": full_name.split(" ")[0],
+				"link": link,
+				"minutes": minutes,
+				"days": s.guest_days or 7,
+				"company": s.company,
+				"barb": "barb" in frappe.get_installed_apps(),
+			},
 		),
 		now=True,
 	)
@@ -196,7 +203,7 @@ def block_email(doc, method=None):
 
 def questions_left(user=None):
 	"""Barb questions a Demo Guest has left today; None for everyone else."""
-	if not is_guest(user):
+	if not is_guest(user) or not frappe.db.exists("DocType", "Barb Log"):
 		return None
 	asked = frappe.db.count("Barb Log", {"user": user or frappe.session.user, "creation": (">=", today())})
 	return max(0, (settings().questions_per_day or 20) - asked)

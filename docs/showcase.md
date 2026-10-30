@@ -15,7 +15,7 @@ switch it on only on a demo site.
 |---|---|---|
 | Enabled | off | Opens `erpzero_za.showcase.guests.signup` and creates the Demo Guest role; switches on email-link login |
 | Demo company | | Guests get a User Permission for this company only |
-| Barb questions per guest per day | 20 | Checked in `barb.api.ask` |
+| Barb questions per guest per day | 20 | Given to Barb (if installed) through the `barb_questions_left` hook |
 | Days a guest account stays open | 7 | Signing up again re-opens it |
 | Sign-in link valid for (minutes) | 60 | Each link works once |
 | Send leads to | | Each sign-up is emailed here, reply-to the lead |
