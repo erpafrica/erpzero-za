@@ -24,8 +24,8 @@ class TestShowcase(IntegrationTestCase):
 	def sign_up(self, consent=1):
 		with patch.object(guests, "_mail") as mail:
 			frappe.local.request_ip = "127.0.0.1"
-			lead = guests._record_lead(EMAIL, "Thandi Nkosi", "Nkosi Trading", consent, guests.settings())
 			guests._make_guest(EMAIL, "Thandi Nkosi", guests.settings())
+			lead = guests._record_lead(EMAIL, "Thandi Nkosi", "Nkosi Trading", consent, guests.settings())
 			guests._send_link(EMAIL, "Thandi Nkosi", guests.settings())
 		return lead, mail
 
@@ -77,6 +77,8 @@ class TestShowcase(IntegrationTestCase):
 			guests.block_email(frappe._dict(communication_type="Communication", sent_or_received="Sent"))
 
 	def test_others_are_not_blocked(self):
+		guests.setup()  # the Demo Guest role exists, and Administrator holds every role
+		self.assertFalse(guests.is_guest("Administrator"))
 		guests.block_submit(frappe._dict(owner="Administrator", docstatus=1))
 		self.assertIsNone(guests.questions_left())
 

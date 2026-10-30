@@ -42,7 +42,10 @@ def settings():
 
 
 def is_guest(user=None):
-	return ROLE in frappe.get_roles(user or frappe.session.user)
+	user = user or frappe.session.user
+	if user in ("Administrator", "Guest"):  # Administrator holds every role, Demo Guest included
+		return False
+	return ROLE in frappe.get_roles(user)
 
 
 def setup():
@@ -77,8 +80,8 @@ def sign_up(full_name, email, company_name=None, consent=0, website=None):
 	if frappe.db.exists("User", email) and not is_guest(email):
 		return answer  # a real user of this site: never turn them into a guest
 
-	lead = _record_lead(email, full_name, company_name, frappe.utils.cint(consent), s)
 	_make_guest(email, full_name, s)
+	lead = _record_lead(email, full_name, company_name, frappe.utils.cint(consent), s)
 	frappe.db.commit()
 	_send_link(email, full_name, s)
 	if s.lead_email:
