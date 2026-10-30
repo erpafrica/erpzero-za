@@ -1,0 +1,134 @@
+{
+ "creation": "2026-10-30 15:00:00.000000",
+ "modified": "2026-10-30 15:00:00.000000",
+ "modified_by": "Administrator",
+ "owner": "Administrator",
+ "module": "Showcase",
+ "engine": "InnoDB",
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "actions": [],
+ "links": [],
+ "doctype": "DocType",
+ "name": "Showcase Lead",
+ "autoname": "field:email",
+ "naming_rule": "By fieldname",
+ "title_field": "full_name",
+ "in_create": 1,
+ "description": "Someone who signed up to try the demo.",
+ "fields": [
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "options": "Email",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "full_name",
+   "fieldtype": "Data",
+   "label": "Name",
+   "in_list_view": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "company_name",
+   "fieldtype": "Data",
+   "label": "Company",
+   "in_list_view": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "marketing_consent",
+   "fieldtype": "Check",
+   "label": "Agreed to marketing email",
+   "read_only": 1
+  },
+  {
+   "fieldname": "consent_text",
+   "fieldtype": "Small Text",
+   "label": "Consent wording",
+   "read_only": 1,
+   "depends_on": "marketing_consent"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "User",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "expires_on",
+   "fieldtype": "Date",
+   "label": "Guest access until",
+   "in_list_view": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "sign_up_count",
+   "fieldtype": "Int",
+   "label": "Sign-ups",
+   "read_only": 1,
+   "default": "0"
+  },
+  {
+   "fieldname": "last_sign_up",
+   "fieldtype": "Datetime",
+   "label": "Last sign-up",
+   "read_only": 1
+  },
+  {
+   "fieldname": "ip_address",
+   "fieldtype": "Data",
+   "label": "IP address",
+   "read_only": 1
+  },
+  {
+   "fieldname": "lead_sent",
+   "fieldtype": "Datetime",
+   "label": "Emailed to us",
+   "read_only": 1
+  }
+ ],
+ "field_order": [
+  "email",
+  "full_name",
+  "company_name",
+  "marketing_consent",
+  "consent_text",
+  "column_break_1",
+  "user",
+  "expires_on",
+  "sign_up_count",
+  "last_sign_up",
+  "ip_address",
+  "lead_sent"
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  },
+  {
+   "role": "Sales Manager",
+   "read": 1,
+   "report": 1,
+   "export": 1
+  }
+ ]
+}

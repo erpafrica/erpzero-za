@@ -58,7 +58,12 @@
 			}
 		});
 		frappe.realtime.on("barb", onEvent);
-		greet();
+		greet(r);
+		// Demo guests came to meet Barb: open her once per session
+		if (r.demo_guest && !sessionStorage.getItem("barb-opened")) {
+			sessionStorage.setItem("barb-opened", "1");
+			open();
+		}
 	}
 
 	function open() {
@@ -66,9 +71,10 @@
 		$panel.find("textarea").trigger("focus");
 	}
 
-	function greet() {
+	function greet(r) {
 		const $body = $panel.find(".barb-body").empty();
 		add("barb", `Hello ${frappe.boot.user.first_name || ""}. I'm Barb. Ask me about your books: VAT, debtors, reports, or the document you have open.`);
+		if (r?.demo_guest) add("note", `Demo: ${r.questions_left} questions left today.`);
 		const $p = $(`<div class="barb-prompts"></div>`).appendTo($body);
 		PROMPTS.forEach((q) => $(`<button></button>`).text(q).appendTo($p).on("click", () => send(q)));
 	}

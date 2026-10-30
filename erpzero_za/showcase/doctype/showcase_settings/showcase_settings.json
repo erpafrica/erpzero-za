@@ -1,0 +1,99 @@
+{
+ "creation": "2026-10-30 15:00:00.000000",
+ "modified": "2026-10-30 15:00:00.000000",
+ "modified_by": "Administrator",
+ "owner": "Administrator",
+ "module": "Showcase",
+ "engine": "InnoDB",
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "actions": [],
+ "links": [],
+ "doctype": "DocType",
+ "name": "Showcase Settings",
+ "issingle": 1,
+ "track_changes": 1,
+ "description": "A public demo of this site's books: visitors sign up with their email, get a one-time sign-in link and can try everything except submitting, cancelling, deleting or sending email.",
+ "fields": [
+  {
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled",
+   "default": "0",
+   "description": "Lets visitors sign up on the website with their email and try the books as a Demo Guest."
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Demo company",
+   "options": "Company",
+   "mandatory_depends_on": "enabled",
+   "description": "Guests see only this company."
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "questions_per_day",
+   "fieldtype": "Int",
+   "label": "Barb questions per guest per day",
+   "default": "20",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "guest_days",
+   "fieldtype": "Int",
+   "label": "Days a guest account stays open",
+   "default": "7",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "link_minutes",
+   "fieldtype": "Int",
+   "label": "Sign-in link valid for (minutes)",
+   "default": "60",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "leads_section",
+   "fieldtype": "Section Break",
+   "label": "Leads"
+  },
+  {
+   "fieldname": "lead_email",
+   "fieldtype": "Data",
+   "label": "Send leads to",
+   "options": "Email",
+   "description": "Each sign-up is emailed here, with the lead's address as reply-to."
+  },
+  {
+   "fieldname": "consent_text",
+   "fieldtype": "Small Text",
+   "label": "Marketing consent text",
+   "default": "Send me occasional news about ErpZeroZA and Barb. I can unsubscribe at any time."
+  }
+ ],
+ "field_order": [
+  "enabled",
+  "company",
+  "column_break_1",
+  "questions_per_day",
+  "guest_days",
+  "link_minutes",
+  "leads_section",
+  "lead_email",
+  "consent_text"
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1
+  }
+ ]
+}

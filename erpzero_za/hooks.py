@@ -149,6 +149,17 @@ after_install = "erpzero_za.lean.after_install"
 
 doc_events = {
 	"Company": {"on_update": "erpzero_za.za_books.vat.on_company_update"},
+	# Showcase mode: Demo Guests can draft anything their roles allow, but not submit, cancel, delete or send
+	"*": {
+		"before_submit": "erpzero_za.showcase.guests.block_submit",
+		"before_cancel": "erpzero_za.showcase.guests.block_cancel",
+		"on_trash": "erpzero_za.showcase.guests.block_delete",
+	},
+	"Communication": {"before_insert": "erpzero_za.showcase.guests.block_email"},
+}
+
+scheduler_events = {
+	"daily": ["erpzero_za.showcase.guests.nightly"],
 }
 
 override_doctype_class = {

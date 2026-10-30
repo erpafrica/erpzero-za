@@ -11,6 +11,7 @@ import frappe
 import requests
 
 from erpzero_za.barb import tools
+from erpzero_za.showcase import guests
 
 MAX_STEPS = 10
 MAX_TOOL_RESULT = 15000
@@ -20,7 +21,11 @@ TIMEOUT = 120
 @frappe.whitelist()
 def status():
 	settings = frappe.get_cached_doc("Barb Settings")
-	return {"enabled": bool(settings.enabled and settings.barb_url and settings.get_password("barb_key", raise_exception=False))}
+	return {
+		"enabled": bool(settings.enabled and settings.barb_url and settings.get_password("barb_key", raise_exception=False)),
+		"demo_guest": guests.is_guest(),
+		"questions_left": guests.questions_left(),
+	}
 
 
 @frappe.whitelist(methods=["POST"])
@@ -31,6 +36,8 @@ def ask(question, history=None, doctype=None, docname=None):
 	question = (question or "").strip()[:4000]
 	if not question:
 		frappe.throw("Ask Barb a question.")
+	if guests.questions_left() == 0:
+		frappe.throw("That's today's questions for the demo used up. Come back tomorrow, or ask us about Barb for your own books.")
 	history = frappe.parse_json(history) if isinstance(history, str) else (history or [])
 
 	log = frappe.get_doc(

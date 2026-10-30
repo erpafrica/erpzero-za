@@ -187,7 +187,7 @@ def _vat_summary(doc, note):
 		"vat201": {f: doc.get(fieldname) for f, fieldname in VAT201_FIELDS.items() if doc.get(fieldname)},
 		"transactions_by_classification": by_field,
 		"unclassified": len(by_field.get("Unclassified", [])),
-		"link": f"/app/value-added-tax-return/{doc.name}",
+		"link": f"/desk/value-added-tax-return/{doc.name}",
 	}
 
 
