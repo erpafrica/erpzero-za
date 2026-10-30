@@ -10,6 +10,9 @@ app_license = "mit"
 
 required_apps = ["erpnext", "csf_za"]
 
+# Barb the Bookkeeper's panel; it only appears once Barb Settings is switched on
+app_include_js = "/assets/erpzero_za/js/barb.js"
+
 # Each item in the list will be shown as an app in the apps page
 # add_to_apps_screen = [
 # 	{
