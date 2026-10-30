@@ -97,7 +97,7 @@ def run(log, question, history, doctype=None, docname=None):
 		_finish(log, "Done", answer=answer, called=called, model=model, steps=steps, tokens=(tokens_in, tokens_out))
 		_publish(log, "done", answer=answer)
 	except Exception as e:
-		frappe.db.rollback()
+		# tools roll back their own failures above; a failed call to Barb's service writes nothing
 		message = _friendly(e)
 		_finish(log, "Failed", error=message, called=called, model=model, steps=steps, tokens=(tokens_in, tokens_out))
 		_publish(log, "failed", error=message)
