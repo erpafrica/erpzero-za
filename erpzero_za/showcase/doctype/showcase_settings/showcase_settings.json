@@ -59,6 +59,13 @@
    "non_negative": 1
   },
   {
+   "fieldname": "living_demo",
+   "fieldtype": "Check",
+   "label": "Living demo: the company trades every day",
+   "default": "0",
+   "description": "Each night the demo company gets that day's invoices, bills, payments and month-end work (from erpzero_za.showcase.seed), so the demo always has current activity. Load the demo year first."
+  },
+  {
    "fieldname": "leads_section",
    "fieldtype": "Section Break",
    "label": "Leads"
@@ -84,6 +91,7 @@
   "questions_per_day",
   "guest_days",
   "link_minutes",
+  "living_demo",
   "leads_section",
   "lead_email",
   "consent_text"

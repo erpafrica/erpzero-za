@@ -163,7 +163,7 @@ doc_events = {
 }
 
 scheduler_events = {
-	"daily": ["erpzero_za.showcase.guests.nightly"],
+	"daily": ["erpzero_za.showcase.guests.nightly", "erpzero_za.showcase.seed.living_demo"],
 }
 
 override_doctype_class = {
