@@ -327,9 +327,10 @@ def _payroll(company, day):
 				(f"Salary - {abbr}", p["gross"] + p["uif_each"] + p["sdl"], 0),
 				(f"PAYE Payable - {abbr}", 0, p["paye"]), (f"UIF Payable - {abbr}", 0, 2 * p["uif_each"]),
 				(f"SDL Payable - {abbr}", 0, p["sdl"]), (bank, 0, net)])
-	if day.day == 7 and day > START:
+	if day.day == 7:
 		ref = f"KK-{day:%Y%m}-EMP201"
-		if not _exists("Journal Entry", company, "cheque_no", ref):
+		ran_payroll = _exists("Journal Entry", company, "cheque_no", f"KK-{add_months(day, -1):%Y%m}-PAY")
+		if ran_payroll and not _exists("Journal Entry", company, "cheque_no", ref):
 			_journal(company, day, ref, f"EMP201 for {add_months(day, -1):%B %Y} paid to SARS", [
 				(f"PAYE Payable - {abbr}", p["paye"], 0), (f"UIF Payable - {abbr}", 2 * p["uif_each"], 0),
 				(f"SDL Payable - {abbr}", p["sdl"], 0), (bank, 0, p["paye"] + 2 * p["uif_each"] + p["sdl"])])
