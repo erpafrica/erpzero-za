@@ -136,7 +136,7 @@ def set_up(company):
 		_ensure_account(company, name, vat_parent)
 	_ensure_account(company, "Insurance", frappe.db.get_value("Account", f"Administrative Expenses - {abbr}", "parent_account"))
 	_ensure_account(company, "Rental Income", frappe.db.get_value("Account", f"Interest Income - {abbr}", "parent_account"))
-	frappe.db.set_value("Company", company, {"default_bank_account": bank, "default_payroll_payable_account": f"Payroll Payable - {abbr}"})
+	frappe.db.set_value("Company", company, "default_bank_account", bank)
 	if not frappe.db.get_value("Company", company, "tax_id"):
 		frappe.db.set_value("Company", company, "tax_id", "4999999990")  # fictitious
 	_address("Company", company, "Main Road", "Nieu-Bethesda", "6286", "South Africa", company_address=True)
