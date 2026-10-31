@@ -235,7 +235,7 @@ def _sell(company, day, customer, lines, template, tag):
 	doc.insert()
 	doc.submit()
 	if CUSTOMERS.get(customer, ("",))[0] == "COD":
-		_receive(company, doc.name, day, doc.grand_total)
+		_receive(company, doc.name, day)
 	return doc
 
 
@@ -301,7 +301,7 @@ def _customer_payments(company, day):
 			continue  # stopped paying: shows up in the debtors' age analysis
 		if getdate(pay_on) > day:
 			continue
-		amount = inv.outstanding_amount
+		amount = None  # in full
 		if habit == "part" and flt(inv.outstanding_amount) >= flt(inv.grand_total) - 1:
 			amount = round(inv.outstanding_amount / 2, 2)  # half now ...
 		elif habit == "part" and getdate(add_days(pay_on, 14)) > day:
@@ -374,7 +374,8 @@ def _vat_return(company, date_from, date_to):
 # ---------- helpers ----------
 
 
-def _receive(company, invoice, day, amount):
+def _receive(company, invoice, day, amount=None):
+	"""amount None pays what is outstanding (ERPNext's own figure, after rounding)."""
 	ref = f"KK-{day:%Y%m%d}-R-{invoice}"
 	if _exists("Payment Entry", company, "reference_no", ref):
 		return
