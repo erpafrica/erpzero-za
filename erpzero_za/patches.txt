@@ -6,4 +6,5 @@
 erpzero_za.patches.v16.apply_lean_profile
 erpzero_za.patches.v16.setup_za_vat
 erpzero_za.patches.v16.remove_bundled_barb
+erpzero_za.patches.v16.za_tax_invoice_default
 # Patches added in this section will be executed after doctypes are migrated

@@ -90,7 +90,10 @@ barb_questions_left = "erpzero_za.showcase.guests.questions_left"
 # ------------
 
 # before_install = "erpzero_za.install.before_install"
-after_install = "erpzero_za.lean.after_install"
+after_install = [
+	"erpzero_za.lean.after_install",
+	"erpzero_za.za_books.paperwork.set_default_print_format",
+]
 
 # Uninstallation
 # ------------
@@ -192,6 +195,9 @@ override_doctype_class = {
 # -------
 
 before_tests = "erpzero_za.tests.setup.before_tests"
+
+# za_invoice(doc) for the ZA Tax Invoice print format (tax invoices and credit notes, VAT Act s20/s21)
+jinja = {"methods": ["erpzero_za.za_books.paperwork.za_invoice"]}
 
 # Extend DocType Class
 # ------------------------------

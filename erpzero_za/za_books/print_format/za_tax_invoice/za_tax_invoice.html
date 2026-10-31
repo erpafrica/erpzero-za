@@ -1,0 +1,82 @@
+{#- ZA Tax Invoice: Sales Invoices and their credit notes, laid out the way a Xero user expects.
+    What appears (and why) is decided in erpzero_za/za_books/paperwork.py, against VAT Act s20 and s21. -#}
+{%- set z = za_invoice(doc) -%}
+{%- macro money(v) -%}{{ frappe.utils.fmt_money(v, currency=z.currency) }}{%- endmacro -%}
+<style>
+	.za { font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; font-size: 9.5pt; color: #1b2330; }
+	.za h1 { font-size: 22pt; font-weight: 700; letter-spacing: .02em; margin: 0 0 14px; text-transform: uppercase; }
+	.za .head { display: flex; justify-content: space-between; gap: 18px; }
+	.za .head > div { flex: 1; }
+	.za .head .us { text-align: right; }
+	.za .lbl { font-weight: 700; margin-top: 6px; }
+	.za .muted { color: #5a6675; }
+	.za table.lines { width: 100%; border-collapse: collapse; margin-top: 22px; }
+	.za table.lines th { text-align: left; font-weight: 700; border-bottom: 1px solid #1b2330; padding: 6px 4px; }
+	.za table.lines td { padding: 6px 4px; border-bottom: 1px solid #dde2ec; vertical-align: top; }
+	.za .r { text-align: right; white-space: nowrap; }
+	.za table.totals { margin: 10px 0 0 auto; border-collapse: collapse; min-width: 260px; }
+	.za table.totals td { padding: 4px; }
+	.za table.totals tr.grand td { font-weight: 700; font-size: 11pt; border-top: 1px solid #1b2330; padding-top: 6px; }
+	.za .foot { margin-top: 22px; }
+	.za .notes p { margin: 3px 0; }
+	.za .advice { margin-top: 34px; padding-top: 14px; border-top: 1px dashed #5a6675; display: flex; gap: 24px; }
+	.za .advice h2 { font-size: 13pt; margin: 0 0 6px; text-transform: uppercase; }
+	.za .advice table td { padding: 2px 10px 2px 0; }
+</style>
+<div class="za">
+	<div class="head">
+		<div>
+			<h1>{{ z.title }}</h1>
+			<div><b>{{ z.recipient.name }}</b></div>
+			{%- for line in z.recipient.address %}<div>{{ line }}</div>{% endfor %}
+			{%- if z.recipient.vat %}<div>VAT number: {{ z.recipient.vat }}</div>{% endif %}
+		</div>
+		<div>
+			<div class="lbl">{{ "Credit Note" if doc.is_return else "Invoice" }} Date</div><div>{{ z.date }}</div>
+			<div class="lbl">{{ "Credit Note" if doc.is_return else "Invoice" }} Number</div><div>{{ z.number }}</div>
+			{%- if z.original %}<div class="lbl">Against Invoice</div><div>{{ z.original.number }} of {{ z.original.date }}</div>{% endif %}
+			{%- if z.reference %}<div class="lbl">Reference</div><div>{{ z.reference }}</div>{% endif %}
+			{%- if z.supplier.vat %}<div class="lbl">VAT Number</div><div>{{ z.supplier.vat }}</div>{% endif %}
+		</div>
+		<div class="us">
+			<div><b>{{ z.supplier.name }}</b></div>
+			{%- for line in z.supplier.address %}<div>{{ line }}</div>{% endfor %}
+		</div>
+	</div>
+
+	<table class="lines">
+		<thead><tr><th>Description</th><th class="r">Quantity</th><th class="r">Unit Price</th><th class="r">VAT</th><th class="r">Amount {{ z.currency }}</th></tr></thead>
+		<tbody>
+		{%- for l in z.lines %}
+			<tr><td>{{ l.description }}</td><td class="r">{{ frappe.utils.fmt_money(l.qty) | replace(".00", "") }}</td><td class="r">{{ frappe.utils.fmt_money(l.rate) }}</td><td class="r">{{ z.vat_label }}</td><td class="r">{{ frappe.utils.fmt_money(l.amount) }}</td></tr>
+		{%- endfor %}
+		</tbody>
+	</table>
+
+	<table class="totals">
+		<tr><td>Subtotal</td><td class="r">{{ frappe.utils.fmt_money(z.subtotal) }}</td></tr>
+		<tr><td>TOTAL VAT {{ z.vat_label }}</td><td class="r">{{ frappe.utils.fmt_money(z.vat) }}</td></tr>
+		<tr class="grand"><td>{{ "TOTAL CREDIT" if doc.is_return else "TOTAL" }} {{ z.currency }}</td><td class="r">{{ frappe.utils.fmt_money(z.total) }}</td></tr>
+		{%- if z.amount_due is not none and z.amount_due != z.total %}<tr><td>Amount Due {{ z.currency }}</td><td class="r">{{ frappe.utils.fmt_money(z.amount_due) }}</td></tr>{% endif %}
+	</table>
+
+	<div class="foot">
+		{%- if z.due_date %}<p><b>Due Date: {{ z.due_date }}</b></p>{% endif %}
+		{%- if z.reason %}<p><b>Reason for credit:</b> {{ z.reason }}</p>{% endif %}
+		{%- if z.bank %}<p>Please pay by EFT to <b>{{ z.bank.account_name or z.supplier.name }}</b>, {{ z.bank.bank }}, account {{ z.bank.bank_account_no }}{% if z.bank.branch_code %}, branch code {{ z.bank.branch_code }}{% endif %}, using {{ z.number }} as the reference.</p>{% endif %}
+		<div class="notes muted">{%- for n in z.notes %}<p>{{ n }}</p>{% endfor %}</div>
+	</div>
+
+	{%- if not doc.is_return and z.amount_due %}
+	<div class="advice">
+		<div style="flex:1"><h2>Payment Advice</h2><div>To: {{ z.supplier.name }}</div>{%- for line in z.supplier.address %}<div>{{ line }}</div>{% endfor %}</div>
+		<table>
+			<tr><td><b>Customer</b></td><td>{{ z.recipient.name }}</td></tr>
+			<tr><td><b>Invoice Number</b></td><td>{{ z.number }}</td></tr>
+			<tr><td><b>Amount Due</b></td><td>{{ money(z.amount_due) }}</td></tr>
+			{%- if z.due_date %}<tr><td><b>Due Date</b></td><td>{{ z.due_date }}</td></tr>{% endif %}
+			<tr><td><b>Amount Enclosed</b></td><td>________________</td></tr>
+		</table>
+	</div>
+	{%- endif %}
+</div>
